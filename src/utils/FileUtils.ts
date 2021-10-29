@@ -72,8 +72,8 @@ export function presentableTextForFile(
 }
 
 /**
- * Sanitizes a svg file with DOMPurify in order to prevent XSS attacks
- * when viewing svg blobs in the browser.
+ * Sanitizes a svg file with DOMPurify in order to prevent XSS attacks 
+ * when viewing svg blobs in the browser
  *
  * @param {string} svgFile The original svg file.
  * @param {boolean} allowUseTags Whether use tags will be filtered out. Default true.
@@ -81,7 +81,11 @@ export function presentableTextForFile(
  */
 export function sanitizeSvg(
     svgFile: string,
+<<<<<<< HEAD
     allowUseTags = false,
+=======
+    allowUseTags: boolean = true
+>>>>>>> parent of 3dee112e25 (Fixed linting issues)
 ): string {
     let allowedTags = [];
 
@@ -91,11 +95,11 @@ export function sanitizeSvg(
         // and enables us to safely allow the popular <use> tag.
         allowedTags = ['use'];
 
-        DOMPurify.addHook('afterSanitizeAttributes', function(node: Element) {
-            const href = node.getAttribute('xlink:href') || node.getAttribute('href');
+        DOMPurify.addHook('afterSanitizeAttributes', function (node: Element) {
+            const href = node.getAttribute('xlink:href') || node.getAttribute('href')
             if (href && !href.startsWith('#')) {
-                node.removeAttribute('xlink:href');
-                node.removeAttribute('href');
+                node.removeAttribute('xlink:href')
+                node.removeAttribute('href')
             }
         });
     }
@@ -106,6 +110,6 @@ export function sanitizeSvg(
             html: false,
             MathML: false,
         },
-        ADD_TAGS: allowedTags,
+        ADD_TAGS: allowedTags
     });
 }

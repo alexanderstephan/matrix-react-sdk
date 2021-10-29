@@ -47,20 +47,24 @@ export function decryptFile(
         return encrypt.decryptAttachment(responseData, file);
     }).then((dataArray) => {
         // Turn the array into a Blob and give it the correct MIME-type.
-        //
         // IMPORTANT: we must not allow scriptable MIME-types into Blobs otherwise
         // they introduce XSS attacks if the Blob URI is viewed directly in the
         // browser (e.g. by copying the URI into a new tab or window).
         // However, image/svg+xml can be allowed, since files of this type can be
         // sanitized using DOMPurify.
-        // For more information refer to the comment in blobs.ts.
+        // See warning at top of file.
         let mimetype = info?.mimetype ? info.mimetype.split(";")[0].trim() : '';
         mimetype = getBlobSafeMimeType(mimetype);
 
+<<<<<<< HEAD
         // In case of svg thumbnails we generate we create a sanitized Blob.
         // NOTE: For SVG we can also use the thumbnail for the lightbox.
         if (mimetype === "image/svg+xml" && isSvgThumbnail) {
             const svgFile = new TextDecoder("utf-8").decode(decodeBase64(dataArray));
+=======
+        if (mimetype === "image/svg+xml") {
+            let svgFile = new TextDecoder("utf-8").decode(decodeBase64(dataArray));
+>>>>>>> parent of 3dee112e25 (Fixed linting issues)
             return new Blob([sanitizeSvg(svgFile)], { type: mimetype });
         }
 
